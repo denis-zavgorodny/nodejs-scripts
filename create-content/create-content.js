@@ -22,7 +22,7 @@ module.exports = function(grunt) {
         var fs = require('fs');
         this.requiresConfig([ this.name, this.target, 'contentFileName' ].join('.'));
         this.requiresConfig([ this.name, this.target, 'basePath' ].join('.'));
-        this.requiresConfig([ this.name, this.target, 'wwwPath' ].join('.'));
+        //this.requiresConfig([ this.name, this.target, 'wwwPath' ].join('.'));
 
         this.data.basePath = this.data.basePath || process.env.OLDPWD;
         this.data.wwwPath = this.data.wwwPath || '';
