@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         var linkTemplate = '<li><a href="%url%" target="_blank">%name%</a></li>';
         var that = this;
         fs.readdir(that.data.basePath, function(error, files){
-            if (!fs.readdirSync(that.data.basePath+'/thumb/'))
+            if (!fs.existsSync(that.data.basePath+'/thumb/'))
                 fs.mkdirSync(that.data.basePath+'/thumb/', '0777');
             for(var key in files) {
                 var _file = files[key].split('.');
@@ -44,15 +44,6 @@ module.exports = function(grunt) {
                         from: that.data.wwwPath?that.data.wwwPath+files[key]:that.data.basePath+'/'+files[key],
                         to: that.data.basePath+'/thumb/'+_file[0]+'.png'
                     });
-                    /*(function(from, to){
-                        webshot(from, to, optionsWebshot, function(err) {
-                            if (err)
-                                console.log(err);
-                            else
-                                console.log(from+'... OK');
-                        });        
-                    })(that.data.wwwPath?that.data.wwwPath+files[key]:that.data.basePath+'/'+files[key], that.data.basePath+'/thumb/'+_file[0]+'.png');*/
-                    
                 }    
             }
             var fileHTMLContent = "<!DOCTYPE html >\
