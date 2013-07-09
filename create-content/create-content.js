@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         this.data.basePath = this.data.basePath || process.env.OLDPWD;
 
         var linkList = [];
-        var linkTemplate = '<a href="%url%" target="_blank">%name%</a>';
+        var linkTemplate = '<li><a href="%url%" target="_blank">%name%</a></li>';
         var that = this;
         fs.readdir(that.data.basePath, function(error, files){
             for(var key in files) {
@@ -22,10 +22,12 @@ module.exports = function(grunt) {
                                     <html>\
                                         <head>\
                                             <meta http-equiv='content-type' content='text/html; charset=utf-8' />\
-                                            <style>a{display: block;}</style>\
+                                            <style></style>\
                                         </head>\
                                         <body>\
+                                            <ul>\
                                         "+linkList.join("\n\r")+"\
+                                            </ul>\
                                         </body>\
                                     </html>";
             fs.writeFile(that.data.basePath+'/'+that.data.contentFileName, fileHTMLContent, function(err){
