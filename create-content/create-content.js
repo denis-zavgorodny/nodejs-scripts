@@ -3,7 +3,9 @@ module.exports = function(grunt) {
     grunt.registerMultiTask('createContent', 'Create content for html files', function() {
         var done = this.async();
         var path = require('path');
+        var fs = require('fs');
         var webshot = require('/usr/local/lib/node_modules/grunt/node_modules/webshot');
+        var imagemagick = require('/usr/local/lib/node_modules/grunt/node_modules/imagemagick');
         var optionsWebshot = {
           siteType: 'url',
           timeout: 10000,
@@ -19,7 +21,7 @@ module.exports = function(grunt) {
             + ' AppleWebKit/531.21.20 (KHTML, like Gecko) Mobile/7B298g'
         };
 
-        var fs = require('fs');
+        
         this.requiresConfig([ this.name, this.target, 'contentFileName' ].join('.'));
         this.requiresConfig([ this.name, this.target, 'basePath' ].join('.'));
         //this.requiresConfig([ this.name, this.target, 'wwwPath' ].join('.'));
@@ -80,9 +82,18 @@ module.exports = function(grunt) {
         function createShot(shot) {
             webshot(shot.from, shot.to, optionsWebshot, function(err) {
                 if (err)
-                    console.log(err);
-                else
+                    console.log(shot.from+'... FAIL ('+err+')');
+                else {
                     console.log(shot.from+'... OK');
+                    imagemagick.resize({
+                      srcPath: shot.to,
+                      dstPath: shot.to,
+                      width:   320
+                    }, function(err, stdout, stderr){
+                      if (err) throw err;
+                      console.log('resized '+shot.to);
+                    });
+                }    
                 if (fileShot.length)
                     createShot(fileShot.pop());
             });        
